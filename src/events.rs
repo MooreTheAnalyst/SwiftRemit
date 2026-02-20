@@ -57,3 +57,18 @@ pub fn emit_fees_withdrawn(env: &Env, to: Address, amount: i128) {
     env.events()
         .publish((symbol_short!("fees_with"),), (to, amount));
 }
+
+/// Emits a settlement completed event with full transaction details.
+/// This event includes sender, recipient (agent), token address, and payout amount.
+pub fn emit_settlement_completed(
+    env: &Env,
+    sender: Address,
+    recipient: Address,
+    token: Address,
+    amount: i128,
+) {
+    env.events().publish(
+        (symbol_short!("settled"),),
+        (sender, recipient, token, amount),
+    );
+}

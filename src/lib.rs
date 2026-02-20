@@ -159,7 +159,16 @@ impl SwiftRemitContract {
         remittance.status = RemittanceStatus::Completed;
         set_remittance(&env, remittance_id, &remittance);
 
-        emit_remittance_completed(&env, remittance_id, remittance.agent, payout_amount);
+        emit_remittance_completed(&env, remittance_id, remittance.agent.clone(), payout_amount);
+        
+        // Emit detailed settlement event with all transaction details
+        emit_settlement_completed(
+            &env,
+            remittance.sender,
+            remittance.agent,
+            usdc_token,
+            payout_amount,
+        );
 
         Ok(())
     }
